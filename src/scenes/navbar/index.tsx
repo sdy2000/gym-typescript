@@ -7,16 +7,21 @@ import { useState } from "react";
 import { ActionButton } from "@/components";
 
 type Props = {
+  isTopOfPage: boolean;
   selectedPage: SelectedPage;
   setSelectedPage: (value: SelectedPage) => void;
 };
-const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
+const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width:1060px)");
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
 
   return (
     <nav>
-      <div className="flex-between fixed top-0 z-30 w-full py-6">
+      <div
+        className={`${
+          !isTopOfPage && "bg-pink-100 drop-shadow-md"
+        } flex-between fixed top-0 z-30 w-full py-6`}
+      >
         <div className="flex-between m-auto w-5/6">
           <div className="flex-between w-full gap-16">
             {/* LEFT SIDE */}
@@ -67,6 +72,45 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
           </div>
         </div>
       </div>
+      {/* MOBILE MENU MODAL */}
+      {!isAboveMediumScreens && isMenuToggled && (
+        <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl">
+          {/* CLOSE ICON */}
+          <div className="flex justify-end p-12">
+            <button
+              className="h-10 w-10 text-gray-400 bg-secondary-400 rounded-full p-1 hover:bg-secondary-500 duration-300"
+              onClick={() => {
+                setIsMenuToggled(!isMenuToggled);
+              }}
+            >
+              <XMarkIcon />
+            </button>
+          </div>
+          {/* MENU ITEMS */}
+          <div className="ml-[33%] flex flex-col gap-10 text-2xl">
+            <Link
+              page="Home"
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
+            <Link
+              page="Benefits"
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
+            <Link
+              page="Our Classes"
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
+            <Link
+              page="Contact Us"
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
