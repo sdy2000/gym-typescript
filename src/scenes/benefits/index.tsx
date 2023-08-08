@@ -1,7 +1,16 @@
 import { ActionButton, HText } from "@/components";
-import { SelectedPage } from "@/shared/types";
+import { BenefitType, SelectedPage } from "@/shared/types";
 import { motion } from "framer-motion";
 import BenefitsPageGraphic from "@/assets/BenefitsPageGraphic.png";
+import Benefit from "./Benefit";
+import { benefits } from "./data/benefits";
+
+const container = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.2 },
+  },
+};
 
 type Props = {
   setSelectedPage: (value: SelectedPage) => void;
@@ -25,22 +34,33 @@ const Benefits = ({ setSelectedPage }: Props) => {
             visible: { opacity: 1, x: 0 },
           }}
         >
-          <HText>MORE THAN JUST GYM.</HText>{" "}
+          <HText>MORE THAN JUST GYM.</HText>
           <p className="my-5 text-sm">
             We provide world class fitness equipment, trainers and classes to
             get you to your ultimate fitness goals with ease. We provide true
             care into each and every member.
           </p>
         </motion.div>
-      </motion.div>
 
-      {/* BENEFITS */}
-      <motion.div
-        className="mt-5 items-center justify-between gap-8 md:flex"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.5 }}
-      >
+        {/* BENEFITS */}
+        <motion.div
+          className="mt-5 items-center justify-between gap-8 md:flex"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          variants={container}
+        >
+          {benefits.map((benefit: BenefitType) => (
+            <Benefit
+              key={benefit.title}
+              icon={benefit.icon}
+              title={benefit.title}
+              description={benefit.description}
+              setSelectedPage={setSelectedPage}
+            />
+          ))}
+        </motion.div>
+
         {/* GRAPHICS AND DESCRIPTION */}
         <div className="mt-16 items-center justify-between gap-20 md:mt-28 md:flex">
           {/* GRAPHIC */}
@@ -114,4 +134,5 @@ const Benefits = ({ setSelectedPage }: Props) => {
     </section>
   );
 };
+
 export default Benefits;
