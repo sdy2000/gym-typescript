@@ -1,14 +1,16 @@
-import { ClassType, SelectedPage } from "@/shared/types";
+import { SelectedPage } from "@/shared/types";
 import { motion } from "framer-motion";
 import { HText } from "@/components";
-import Class from "./Class";
-import { classes } from "./data/classes";
+import ClassSlider from "./ClassSlider";
 
 type Props = { setSelectedPage: (value: SelectedPage) => void };
 
 const OurClasses = ({ setSelectedPage }: Props) => {
   return (
-    <section id="ourclasses" className="w-full bg-primary-100 py-40">
+    <section
+      id="ourclasses"
+      className="w-full bg-primary-100 py-40 overflow-hidden"
+    >
       <motion.div
         onViewportEnter={() => setSelectedPage(SelectedPage.OurClasses)}
       >
@@ -33,17 +35,10 @@ const OurClasses = ({ setSelectedPage }: Props) => {
             </p>
           </div>
         </motion.div>
-        <div className="mt-10 h-[353px] w-full overflow-x-auto overflow-y-hidden">
-          <ul className="w-[2800px] whitespace-nowrap">
-            {classes.map((item: ClassType, index) => (
-              <Class
-                key={`${item.name}-${index}`}
-                name={item.name}
-                description={item.description}
-                image={item.image}
-              />
-            ))}
-          </ul>
+        <div className="mt-10 h-72 w-full flex justify-center items-center mx-8 self-center pr-8 xs:pr-16">
+          <div className="w-[95%] overflow-hidden">
+            <ClassSlider />
+          </div>
         </div>
       </motion.div>
     </section>
